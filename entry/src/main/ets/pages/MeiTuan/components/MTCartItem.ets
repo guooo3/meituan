@@ -1,27 +1,31 @@
+import { FoodItem } from '../models'
 import MTAddCut from './MTAddCut'
 
 @Preview
 @Component
 struct MTCartItem {
+  item: FoodItem = new FoodItem()
+
   build() {
     Row({ space: 10 }) {
-      Image('https://img1.baidu.com/it/u=1057531865,2939526366&fm=253&fmt=auto&app=138&f=JPEG?w=750&h=500')
+      Image(this.item.picture)
         .width(60)
         .aspectRatio(1)
         .borderRadius(8)
       Column() {
-        Text('小份酸汤莜面鱼鱼+肉夹馍套餐')
+        Text(this.item.name)
           .fontSize(14)
           .textOverflow({
             overflow: TextOverflow.Ellipsis
           })
-        Row(){
-          Text(){
+        Row() {
+          Text() {
             Span('￥').fontSize(10)
-            Span('34.23').fontSize(20).fontWeight(600)
+            Span(this.item.price.toString()).fontSize(20).fontWeight(600)
           }
           .fontColor($r('app.color.font_main_color'))
-          MTAddCut()
+
+          MTAddCut({ item: this.item })
         }
         .width('100%')
         .justifyContent(FlexAlign.SpaceBetween)

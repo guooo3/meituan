@@ -13,16 +13,20 @@ struct MTIndex {
   showCart: boolean = false
   @Provide
   userCart: FoodItem[] = []
-  @StorageProp('user_cart')
-  @Watch('updateCart')
-  data: FoodItem[] = []
 
+  // @StorageProp('user_cart')
+  // @Watch('updateCart')
+  // data: FoodItem[] = []
+  // updateCart() {
+  //   this.userCart = CartStore.getCarts()
+  //   // promptAction.showToast({message: "change"})
+  // }
   aboutToAppear(): void {
     this.userCart = CartStore.getCarts()
-  }
-  updateCart(){
-    this.userCart = CartStore.getCarts()
-    // promptAction.showToast({message: "change"})
+    getContext().eventHub.on('change_cart',()=>{
+      this.userCart = CartStore.getCarts()
+      // promptAction.showToast({message: "changed"})
+    })
   }
 
   build() {

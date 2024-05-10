@@ -35,6 +35,13 @@ export class CartStore {
       }
     }
     AppStorage.set("user_cart", [...list])
+    getContext().eventHub.emit("change_cart") // 触发
 
+  }
+
+  //清空购物车
+  static clearCart() {
+    AppStorage.set('user_cart', [])
+    getContext().eventHub.emit("change_cart")
   }
 }

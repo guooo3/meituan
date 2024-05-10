@@ -1,14 +1,30 @@
+import { FoodItem } from '../models'
+
 @Preview
 @Component
 struct MTBottom {
   @Consume
   showCart: boolean
+  @Consume
+  userCart: FoodItem[]
+
+  getTotalCount() {
+    return this.userCart.reduce((preValue: number, item: FoodItem) => {
+      return preValue + item.count
+    }, 0).toString()
+  }
+
+  getTotalPrice() {
+    return this.userCart.reduce((preValue: number, item: FoodItem) => {
+      return preValue + item.price * item.count
+    }, 0).toFixed(2)
+  }
 
   build() {
     Row() {
       Row() {
         Badge({
-          value: '0',
+          value: this.getTotalCount().toString(),
           position: BadgePosition.Right,
           style: {
             badgeSize: 18
@@ -32,7 +48,7 @@ struct MTBottom {
         Column() {
           Text() {
             Span('￥').fontSize(12)
-            Span('0.00').fontSize(24)
+            Span(this.getTotalPrice().toString()).fontSize(24)
           }
           .fontColor($r('app.color.white'))
 
